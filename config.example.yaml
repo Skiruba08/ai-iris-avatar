@@ -40,7 +40,7 @@ tts:
 
   # Allow to use DeepSpeed library for faster TTS inference
   # https://github.com/microsoft/DeepSpeed
-  deepspeed_enabled: True
+  deepspeed_enabled: False
 
   # Split text into smaller chunks to stream them faser. Lower chunk size
   # reduces time to first sound, but might produce glitches between

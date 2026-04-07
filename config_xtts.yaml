@@ -1,22 +1,18 @@
 llm:
-  # mocked_response: 'Hello, this is a sample response'
-  # mocked_response: ''
-  # mocked_response: 'Michael Jordan is a renowned American basketball player known for his exceptional skills and captivating performances. He dominated the sport with six NBA championships, setting a record that remains unbroken to this day.'
-
-  context_length: 1
-  system_message: >-
-    Answer the question using your general knowledge.
-    If you don't know the answer, just say that you don't know.
-    Use three sentences maximum and keep the answer concise.
-    Keep sentences short, no more than 8 words.
+  model: "qwen3.5-122b"
+  api: http://cci-siscluster1.charlotte.edu:8080/api/chat/completions
+  api_key: "sk-06efd544e4234558abca35ec94c88085"
+  system_message: "You are a helpful assistant."
+  temperature: 0.7
+  top_p: 0.9
 
 tts:
-  use_gpu: True
+  use_gpu: false
   model_name: 'tts_models/multilingual/multi-dataset/xtts_v2'
   speaker: 'Rosemary Okafor'
   language: 'en'
 
-  # deepspeed_enabled: False # default is True, will check for installed library
+  deepspeed_enabled: False # default is True, will check for installed library
 
   streaming_enabled: False # default is False
   streaming_chunk_size: 60 # quick debug: 20

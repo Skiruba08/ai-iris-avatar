@@ -24,8 +24,8 @@ public enum WebSocketConnectionState
 
 public class WebSocketClientBehaviour : MonoBehaviour
 {
-  [Tooltip("Address of the Python sever e.g. 'ws://localhost:8080'.")]
-  public string websocketEndpoint = "ws://localhost:8080";
+  [Tooltip("Address of the Python server e.g. 'ws://localhost:8080/'.")]
+  public string websocketEndpoint = "ws://localhost:8080/";
 
   [Tooltip("Disable WebSocket. Use when e.g. testing with unity file.")]
   public bool disableWebsocket = false;
@@ -52,15 +52,14 @@ public class WebSocketClientBehaviour : MonoBehaviour
 
   async void Start()
   {
+    Debug.Log("WebSocket Start ran");
+    Debug.Log("Connecting to websocket: " + websocketEndpoint);
+
     if (!disableWebsocket)
     {
       CreateWebSocket();
       if (websocket != null)
       {
-        // Keep sending messages at every 0.3s
-        // InvokeRepeating("SendWebSocketMessage", 0.0f, 2.0f);
-
-        // waiting for messages
         await websocket.Connect();
       }
     }
@@ -85,13 +84,13 @@ public class WebSocketClientBehaviour : MonoBehaviour
 
     websocket.OnError += (e) =>
     {
-      Debug.LogWarning("WebSocket error: " + e);
+      Debug.LogError("WebSocket error: " + e);
     };
 
     websocket.OnClose += (e) =>
     {
       SetConnectionState(WebSocketConnectionState.NotConnected);
-      Debug.Log("WebSocket connection closed!");
+      Debug.LogError("WebSocket connection closed! Code: " + e);
     };
 
     websocket.OnMessage += OnMessage;
@@ -135,14 +134,16 @@ public class WebSocketClientBehaviour : MonoBehaviour
 
   private bool IsWavFileBytes(byte[] bytes)
   {
-    // https://en.wikipedia.org/wiki/WAV
-    // WAV is an implementation of RIFF (chunk-based file format) for audio. It should always start with "RIFF".
+    if (bytes == null || bytes.Length < 4)
+    {
+      return false;
+    }
+
     var ch0 = Convert.ToChar((int)bytes[0]);
     var ch1 = Convert.ToChar((int)bytes[1]);
     var ch2 = Convert.ToChar((int)bytes[2]);
     var ch3 = Convert.ToChar((int)bytes[3]);
     var asAscii = $"{ch0}{ch1}{ch2}{ch3}";
-    // Debug.Log($"Rcv first bytes as ascii: '{asAscii}'");
     return asAscii == "RIFF";
   }
 
@@ -159,8 +160,19 @@ public class WebSocketClientBehaviour : MonoBehaviour
     }
     else
     {
-      Debug.Log($"OnMessage (bytes)");
+      Debug.Log("OnMessage (bytes)");
+
       onWavBytesReceived?.Invoke(bytes);
+
+      var speech = GetComponent<SpeechController>();
+      if (speech != null)
+      {
+        speech.SpeakWavFileFromBytes(bytes);
+      }
+      else
+      {
+        Debug.LogError("SpeechController not found on this GameObject.");
+      }
     }
   }
 
@@ -171,5 +183,4 @@ public class WebSocketClientBehaviour : MonoBehaviour
       await websocket.Close();
     }
   }
-
 }

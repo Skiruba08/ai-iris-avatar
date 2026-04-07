@@ -133,6 +133,7 @@ public class SpeechController : MonoBehaviour
 
   public void PlayNextAudioClip()
   {
+    Debug.Log("PlayNextAudioClip called");
     var audioClip = clipQueue.Dequeue();
 
     // Alternative is to use .playscheduled(), but we want to always
@@ -149,6 +150,7 @@ public class SpeechController : MonoBehaviour
 
   public void SpeakWavFileFromBytes(byte[] bytes)
   {
+    Debug.Log("SpeakWavFileFromBytes called");
     var pcmData = PcmData.FromBytes(bytes);
     var audioClip = AudioClip.Create("pcm", pcmData.Length, pcmData.Channels, pcmData.SampleRate, false);
     audioClip.SetData(pcmData.Value, 0);
@@ -166,6 +168,7 @@ public class SpeechController : MonoBehaviour
 
   private bool PlaySpeechSound(AudioClip audioClip)
   {
+    Debug.Log("PlaySpeechSound called");
     var myAudioSource = GetComponent<AudioSource>();
     if (myAudioSource)
     {

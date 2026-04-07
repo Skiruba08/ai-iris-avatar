@@ -100,11 +100,15 @@ Material:
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 10
+    - _DstBlend2: 10
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 0
     - _ExcludeFromTUAndAA: 0
     - _IOR_2: 1.38
+    - _MaterialID: 1
+    - _MaterialTypeMask: 2
     - _OpaqueCullMode: 2
+    - _PerPixelSorting: 0
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
@@ -129,6 +133,7 @@ Material:
     - _StencilWriteMaskMV: 41
     - _SupportDecals: 0
     - _SurfaceType: 1
+    - _TransmissionEnable: 1
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
@@ -149,3 +154,4 @@ Material:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _transmittance_color: {r: 0, g: 0.30653605, b: 0.5254902, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
